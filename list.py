@@ -17,7 +17,8 @@ for student in students:
 student = [
     {"name":"raouf" , "house":"bejaia" , "age":24},
     {"name":"cherifa", "house":"timerit", "age":22},
-    {"name":"Hello", "house":"world" , "age":999}
+    {"name":"Hello", "house":"world" , "age":999},
+    {"name": "amine" , "house": "tichy" , "age": None}
 ]
 
 for s in student:
