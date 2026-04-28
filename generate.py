@@ -11,12 +11,19 @@ def main():
         print_slach(randomN)
 
 
-
-
+    cards = ['card1' , 'card2' , 'card3' , 'card4' , 'card5']
+    random.shuffle(cards)
+    for card in cards:
+        print(card , end=' ')
+    print()
+###################################################################
 def print_slach(randomNumber):
     for i in range(randomNumber):
         print("#" , end='')
     print()
+
+###################################################################
+
 
 
 main()

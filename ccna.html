@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCNA Comprehensive Exam — Days 1-42 | Concepts & Troubleshooting</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0e14;--bg2:#111620;--bg3:#161d2b;--bg4:#1c2437;--bg5:#212c40;
+  --border:#1e2a3d;--border2:#28364f;
+  --accent:#38bdf8;--green:#4ade80;--amber:#fbbf24;--red:#f87171;
+  --purple:#c084fc;--pink:#f472b6;--orange:#fb923c;--teal:#2dd4bf;--indigo:#818cf8;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#4a5568;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.65;min-height:100vh;}
+code,.mono{font-family:'JetBrains Mono',monospace;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#060b12 0%,#0c1523 55%,#060b12 100%);border-bottom:1px solid var(--border);padding:2.5rem 1.5rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(56,189,248,.07) 0%,transparent 65%);}
+.hero-inner{max-width:1000px;margin:0 auto;position:relative;}
+.hero-top{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;padding:3px 12px;border-radius:20px;border:1px solid;}
+.b-blue{background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.25);color:var(--accent);}
+.b-green{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.25);color:var(--green);}
+.b-amber{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.25);color:var(--amber);}
+.b-red{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.25);color:var(--red);}
+h1{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;letter-spacing:-.03em;line-height:1.2;}
+h1 em{font-style:normal;color:var(--accent);}
+.hero-sub{color:var(--text2);font-size:13px;margin-top:.5rem;max-width:600px;}
+
+/* ── FILTER BAR ── */
+.filter-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
+.filter-label{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-right:.25rem;}
+.ftag{font-size:11px;font-family:'JetBrains Mono',monospace;padding:3px 10px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.ftag:hover,.ftag.on{background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.4);color:var(--accent);}
+.ftag.on-all{background:rgba(56,189,248,.15);border-color:var(--accent);color:var(--accent);font-weight:600;}
+
+/* ── MAIN LAYOUT ── */
+.main{max-width:1000px;margin:0 auto;padding:1.5rem 1.5rem 6rem;}
+
+/* ── EXAM HEADER ── */
+.exam-hdr{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;position:sticky;top:0;z-index:50;}
+.exam-hdr-left{display:flex;flex-direction:column;gap:.4rem;}
+.q-info{font-size:13px;color:var(--text2);}
+.q-info strong{color:var(--text);font-size:15px;}
+.prog-bar{width:220px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal));border-radius:2px;transition:width .4s;}
+.score-live{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);}
+.score-live span{color:var(--green);}
+.timer{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--accent);line-height:1;text-align:right;}
+.timer.warn{color:var(--amber);} .timer.crit{color:var(--red);animation:blink 1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* ── QUESTION CARD ── */
+.q-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1rem;transition:border-color .2s;}
+.q-card.answered{border-color:var(--border2);}
+.q-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:.75rem;flex-wrap:wrap;}
+.q-num-badge{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);}
+.topic-badge{font-size:10px;font-family:'JetBrains Mono',monospace;padding:2px 9px;border-radius:10px;border:1px solid;white-space:nowrap;}
+.day-badge{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-left:.5rem;}
+
+/* Topic colors */
+.t-osi{color:#60a5fa;border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06);}
+.t-eth{color:var(--teal);border-color:rgba(45,212,191,.3);background:rgba(45,212,191,.06);}
+.t-vlan{color:var(--accent);border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.06);}
+.t-stp{color:var(--amber);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.06);}
+.t-route{color:var(--green);border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06);}
+.t-rip{color:#a3e635;border-color:rgba(163,230,53,.3);background:rgba(163,230,53,.06);}
+.t-eigrp{color:var(--orange);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.06);}
+.t-ospf{color:var(--teal);border-color:rgba(45,212,191,.3);background:rgba(45,212,191,.06);}
+.t-ipv6{color:#38bdf8;border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.06);}
+.t-fhrp{color:var(--purple);border-color:rgba(192,132,252,.3);background:rgba(192,132,252,.06);}
+.t-svc{color:var(--pink);border-color:rgba(244,114,182,.3);background:rgba(244,114,182,.06);}
+.t-sec{color:var(--red);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.06);}
+
+.q-scenario{background:rgba(14,20,32,.8);border:1px solid var(--border2);border-left:2px solid var(--accent);border-radius:6px;padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:12px;color:#cbd5e1;margin-bottom:1rem;line-height:1.75;overflow-x:auto;white-space:pre;}
+.q-text{font-size:14px;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.65;}
+.opts{display:flex;flex-direction:column;gap:.4rem;}
+.opt{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.65rem 1rem;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:.75rem;user-select:none;}
+.opt:hover:not(.locked){border-color:rgba(56,189,248,.45);color:var(--text);background:rgba(56,189,248,.04);}
+.opt.locked{cursor:default;}
+.opt-l{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;min-width:18px;color:var(--text3);flex-shrink:0;padding-top:1px;}
+.opt.correct{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.5);color:var(--green);}
+.opt.correct .opt-l{color:var(--green);}
+.opt.wrong{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.5);color:var(--red);}
+.opt.wrong .opt-l{color:var(--red);}
+.opt.reveal{background:rgba(74,222,128,.04);border-color:rgba(74,222,128,.25);color:var(--text3);}
+.opt.reveal .opt-l{color:var(--green);}
+
+.expl{margin-top:.9rem;padding:.75rem 1rem;border-radius:6px;font-size:12.5px;line-height:1.65;display:none;}
+.expl.on{display:block;}
+.expl.ok{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);color:#86efac;}
+.expl.bad{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);color:#fca5a5;}
+
+/* ── NAVIGATION ── */
+.exam-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;}
+.btn{padding:.55rem 1.3rem;border-radius:8px;font-size:12px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s;border:1px solid;white-space:nowrap;}
+.btn-next{background:rgba(56,189,248,.1);color:var(--accent);border-color:rgba(56,189,248,.3);}
+.btn-next:hover{background:rgba(56,189,248,.2);}
+.btn-skip{background:transparent;color:var(--text3);border-color:var(--border);}
+.btn-skip:hover{color:var(--text);}
+.btn-end{background:rgba(248,113,113,.1);color:var(--red);border-color:rgba(248,113,113,.3);}
+.btn-end:hover{background:rgba(248,113,113,.2);}
+.btn-dis{opacity:.3;pointer-events:none;}
+
+/* ── START / RESULT SCREENS ── */
+.screen{max-width:600px;margin:3rem auto;text-align:center;padding:1rem;}
+.screen h2{font-size:1.6rem;font-weight:700;margin-bottom:.75rem;}
+.screen p{color:var(--text2);font-size:13px;line-height:1.7;}
+.meta-row{display:flex;justify-content:center;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0;}
+.meta-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;text-align:center;min-width:100px;}
+.meta-val{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;}
+.meta-lbl{font-size:10px;color:var(--text3);margin-top:2px;}
+.start-btn{background:rgba(56,189,248,.12);color:var(--accent);border:1px solid rgba(56,189,248,.35);border-radius:10px;padding:.9rem 3rem;font-size:15px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .2s;display:inline-block;margin-top:1rem;}
+.start-btn:hover{background:rgba(56,189,248,.22);}
+.filter-start-note{font-size:11px;color:var(--text3);margin-top:.75rem;font-family:'JetBrains Mono',monospace;}
+
+/* ── RESULTS ── */
+.result-score{font-family:'JetBrains Mono',monospace;font-size:5.5rem;font-weight:700;line-height:1;}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem;margin:1.5rem 0;text-align:left;}
+.topic-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.7rem .9rem;}
+.topic-box-lbl{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:.3rem;}
+.topic-box-val{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;}
+.topic-bar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:.4rem;}
+.topic-bar-fill{height:100%;border-radius:2px;}
+
+.rev-section{margin-top:2rem;text-align:left;}
+.rev-lbl{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);letter-spacing:.08em;margin-bottom:.75rem;}
+.rev-item{border-radius:8px;padding:.75rem 1rem;margin-bottom:.5rem;font-size:12px;border-left:3px solid;}
+.rev-item.ok{background:rgba(74,222,128,.06);border-left-color:var(--green);}
+.rev-item.bad{background:rgba(248,113,113,.06);border-left-color:var(--red);}
+.rev-item.skip{background:rgba(251,191,36,.05);border-left-color:var(--amber);}
+.rev-q{color:var(--text);font-weight:500;margin-bottom:.25rem;}
+.rev-a{color:var(--text2);}
+.restart-btn{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.3);border-radius:8px;padding:.65rem 2rem;font-size:13px;cursor:pointer;font-family:'JetBrains Mono',monospace;margin:.5rem;}
+.retry-btn{background:rgba(56,189,248,.1);color:var(--accent);border:1px solid rgba(56,189,248,.3);border-radius:8px;padding:.65rem 2rem;font-size:13px;cursor:pointer;font-family:'JetBrains Mono',monospace;margin:.5rem;}
+
+footer{border-top:1px solid var(--border);padding:1.25rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+<div class="hero-inner">
+  <div class="hero-top">
+    <span class="badge b-blue">CCNA 200-301 v1.1</span>
+    <span class="badge b-amber">Days 1 → 42</span>
+    <span class="badge b-red">No NAT/PAT</span>
+    <span class="badge b-green">Concepts + Troubleshooting</span>
+  </div>
+  <h1>CCNA Comprehensive Exam<br><em>Understanding & Troubleshooting</em></h1>
+  <div class="hero-sub">65 questions. 12 topic domains. Focus on how protocols work, why they fail, and how to fix them. Choose your topics or take the full exam.</div>
+</div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">TOPICS:</span>
+  <button class="ftag on-all" data-filter="all" onclick="setFilter('all',this)">All (65Q)</button>
+  <button class="ftag" data-filter="OSI/TCP" onclick="setFilter('OSI/TCP',this)">OSI / TCP (D1-4)</button>
+  <button class="ftag" data-filter="Ethernet/IPv4" onclick="setFilter('Ethernet/IPv4',this)">Ethernet / IPv4 (D5-8)</button>
+  <button class="ftag" data-filter="VLANs" onclick="setFilter('VLANs',this)">VLANs / DTP / VTP (D9-12)</button>
+  <button class="ftag" data-filter="STP" onclick="setFilter('STP',this)">STP / EtherChannel (D13-16)</button>
+  <button class="ftag" data-filter="Routing" onclick="setFilter('Routing',this)">Static Routes (D17-20)</button>
+  <button class="ftag" data-filter="RIP/EIGRP" onclick="setFilter('RIP/EIGRP',this)">RIP / EIGRP (D21-24)</button>
+  <button class="ftag" data-filter="OSPF" onclick="setFilter('OSPF',this)">OSPF (D25-28)</button>
+  <button class="ftag" data-filter="IPv6" onclick="setFilter('IPv6',this)">IPv6 (D29-32)</button>
+  <button class="ftag" data-filter="FHRP" onclick="setFilter('FHRP',this)">FHRP (D33-36)</button>
+  <button class="ftag" data-filter="Services" onclick="setFilter('Services',this)">IP Services (D37-40)</button>
+  <button class="ftag" data-filter="Security" onclick="setFilter('Security',this)">SSH / ACL / Security (D41-42)</button>
+</div>
+
+<!-- SCREENS -->
+<div id="screen-start">
+<div class="screen">
+  <div style="font-size:2.5rem;margin-bottom:.75rem;">🎯</div>
+  <h2>CCNA Concept & Troubleshooting Exam</h2>
+  <p>Test your understanding of <strong>how protocols work</strong>, <strong>why they fail</strong>, and <strong>how to diagnose issues</strong> — without configuring labs. Select topics above or take the full exam.</p>
+  <div class="meta-row" id="start-meta"></div>
+  <button class="start-btn" onclick="startExam()">▶ Start Exam</button>
+  <div class="filter-start-note" id="filter-note">Currently: All 65 questions · 75 minutes</div>
+</div>
+</div>
+
+<div id="screen-exam" style="display:none;">
+<div class="main">
+  <div class="exam-hdr">
+    <div class="exam-hdr-left">
+      <div class="q-info"><strong id="q-counter">Q1</strong> <span id="q-of">/ 65</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="score-live">Score: <span id="score-live">0</span> correct</div>
+    </div>
+    <div>
+      <div class="timer" id="timer">75:00</div>
+      <div style="font-size:10px;color:var(--text3);text-align:right;margin-top:2px;">time remaining</div>
+    </div>
+  </div>
+  <div id="q-area"></div>
+  <div class="exam-nav">
+    <button class="btn btn-skip" id="btn-skip" onclick="skip()">Skip →</button>
+    <div style="display:flex;gap:.5rem;">
+      <button class="btn btn-end" onclick="confirmEnd()">End Exam</button>
+      <button class="btn btn-next btn-dis" id="btn-next" onclick="nextQ()">Next →</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="screen-results" style="display:none;">
+<div class="main"><div id="results-inner"></div></div>
+</div>
+
+<footer>CCNA 200-301 v1.1 · Jeremy's IT Lab Days 1-42 · Concepts & Troubleshooting · No NAT/PAT</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   QUESTION BANK — 65 Questions, 12 Domains
+═══════════════════════════════════════════════════════ */
+const BANK = [
+
+/* ══ OSI / TCP/IP — Days 1-4 ══ */
+{
+  topic:'OSI/TCP', tc:'t-osi', day:'D1-4',
+  q:"A router receives a TCP segment with SYN flag set. At which OSI layers does the router process this packet before forwarding it?",
+  opts:["Only Layer 3 — routers only look at IP headers","Layers 1, 2, and 3 — the router decapsulates to the network layer, reads the IP header, then re-encapsulates","All 7 layers — routers process everything","Layers 1-4 — routers also inspect TCP headers to make routing decisions"],
+  ans:1,
+  expl:"Routers operate at Layer 3. They strip the Layer 2 frame (process L1/L2), read the IP header (L3) to make a routing decision, then re-encapsulate with a new L2 frame for the next hop. They do NOT look at TCP/UDP (L4) for basic routing decisions. Note: Layer 4 awareness is only in firewall/stateful inspection contexts."
+},
+{
+  topic:'OSI/TCP', tc:'t-osi', day:'D1-4',
+  q:"What is the correct term for the data unit at each OSI layer? Match: Transport → Network → Data Link → Physical",
+  opts:["Packet → Segment → Frame → Bit","Segment → Packet → Frame → Bit","Frame → Packet → Segment → Bit","Segment → Frame → Packet → Bit"],
+  ans:1,
+  expl:"Layer 4 Transport = Segment, Layer 3 Network = Packet, Layer 2 Data Link = Frame, Layer 1 Physical = Bit. Mnemonic going down: 'Silly People Do Nothing Terribly' (Session/Presentation/Data Link/Network/Transport). For data units: Segments carry TCP/UDP, Packets carry IP, Frames carry MAC addresses."
+},
+{
+  topic:'OSI/TCP', tc:'t-osi', day:'D1-4',
+  q:"A user opens a web browser and types 'cisco.com'. Which protocol resolves this to an IP address BEFORE TCP connection is established?",
+  opts:["ARP — maps hostname to MAC","HTTP — the browser sends HTTP directly to the hostname","DNS — resolves FQDN to IP address","DHCP — provides both IP and hostname resolution"],
+  ans:2,
+  expl:"DNS (UDP/53 for queries) resolves 'cisco.com' to an IP address first. Then TCP does a 3-way handshake (SYN, SYN-ACK, ACK) with that IP. Then HTTP sends the GET request. ARP comes later to resolve the IP to MAC for the next-hop. Order: DNS → TCP 3WHS → HTTP."
+},
+{
+  topic:'OSI/TCP', tc:'t-osi', day:'D1-4',
+  q:"TCP guarantees reliable delivery using sequence numbers and acknowledgements. What happens when a sender does NOT receive an ACK within the retransmission timeout?",
+  opts:["The connection is immediately torn down","TCP sends a RST to start over","The sender retransmits the unacknowledged segment","UDP takes over for retransmission"],
+  ans:2,
+  expl:"TCP retransmits unacknowledged segments after RTO (Retransmission TimeOut). The receiver uses sequence numbers to detect duplicates and gaps. This is what makes TCP reliable — if segments are lost, dropped, or reordered, TCP detects and recovers. UDP has none of this."
+},
+{
+  topic:'OSI/TCP', tc:'t-osi', day:'D1-4',
+  sc:`PC1 pings PC2 (same subnet) but gets no reply.
+PC1 ARP cache: empty
+PC2 ARP cache: has PC1's MAC`,
+  q:"PC1's ARP cache is empty. When PC1 pings PC2 for the first time, what happens first?",
+  opts:["PC1 sends the ICMP Echo directly — ARP is optional for IPv4","PC1 broadcasts an ARP Request: 'Who has PC2's IP? Tell PC1'","PC1 sends a Gratuitous ARP to announce itself","PC1 queries DNS for PC2's MAC address"],
+  ans:1,
+  expl:"Before sending any IP packet on a LAN, the sender must know the destination MAC address. If not in the ARP cache, it broadcasts an ARP Request (destination MAC = FF:FF:FF:FF:FF:FF). PC2 replies with an ARP Reply (unicast) containing its MAC. Then PC1 sends the ICMP Echo Request using that MAC."
+},
+{
+  topic:'OSI/TCP', tc:'t-osi', day:'D1-4',
+  q:"Which of the following accurately describes the difference between TCP and UDP?",
+  opts:["TCP is connectionless, UDP is connection-oriented","TCP provides reliability (ACK, sequencing, flow control); UDP is best-effort with lower overhead","UDP is always faster because it uses smaller headers","TCP is used for streaming video; UDP is used for file transfers"],
+  ans:1,
+  expl:"TCP: connection-oriented (3-way handshake), reliable (ACKs, retransmission), ordered (sequence numbers), flow-controlled (window size). UDP: connectionless, no ACKs, no ordering, no flow control — just send and forget. TCP overhead is worth it for file transfers, HTTP. UDP is used where speed > reliability: DNS, DHCP, VoIP, streaming."
+},
+
+/* ══ Ethernet / IPv4 / Subnetting — Days 5-8 ══ */
+{
+  topic:'Ethernet/IPv4', tc:'t-eth', day:'D5-8',
+  q:"What is the purpose of the preamble in an Ethernet frame?",
+  opts:["Carries the source and destination MAC addresses","Provides 7 bytes of alternating 10101010 for clock synchronization, followed by 1 byte SFD (10101011) to signal frame start","Contains error checking information (CRC)","Identifies the Layer 3 protocol (IP, ARP, etc.)"],
+  ans:1,
+  expl:"The Ethernet preamble is 7 bytes of alternating 1s and 0s that allow receiving NICs to synchronize their clock to the sender's signal. The 8th byte is the Start Frame Delimiter (SFD: 10101011) which signals the actual frame begins next. The CRC (FCS) is at the end. The EtherType identifies L3 protocol."
+},
+{
+  topic:'Ethernet/IPv4', tc:'t-eth', day:'D5-8',
+  q:"A switch receives a frame with a DESTINATION MAC address not in its MAC address table. What does it do?",
+  opts:["Drops the frame — unknown destination is a security risk","Sends an ARP request to find the destination","Floods the frame out ALL ports except the receiving port (unknown unicast flood)","Sends it to the default gateway"],
+  ans:2,
+  expl:"Unknown unicast flooding: when a switch doesn't know which port leads to a MAC address, it floods the frame to all ports except the one it arrived on. This is normal behavior. The correct device will accept and reply; the switch then learns its MAC address and port. Broadcast and multicast are always flooded."
+},
+{
+  topic:'Ethernet/IPv4', tc:'t-eth', day:'D5-8',
+  q:"You need to subnet 192.168.1.0/24 into subnets of at least 50 hosts each. Which subnet mask meets this requirement with the least waste?",
+  opts:["/25 (126 hosts)","  /26 (62 hosts)","/27 (30 hosts)","/28 (14 hosts)"],
+  ans:1,
+  expl:"/26 = 64 addresses - 2 (network + broadcast) = 62 usable hosts ≥ 50. /27 = 30 hosts (not enough). /25 = 126 hosts (works but wastes addresses). /26 is the best fit. Formula: 2^(32-prefix) - 2 = usable hosts. For /26: 2^6 - 2 = 62."
+},
+{
+  topic:'Ethernet/IPv4', tc:'t-eth', day:'D5-8',
+  q:"Host A (192.168.10.100/24) wants to send a packet to Host B (192.168.20.50/24). What does Host A do first?",
+  opts:["Sends directly to Host B using its IP — routing is transparent to hosts","Checks that B is on the same subnet — since it's different, sends packet to its default gateway","Broadcasts an ARP for 192.168.20.50","Sends the packet to the subnet broadcast address"],
+  ans:1,
+  expl:"Host A applies its subnet mask: 192.168.10.100 AND /24 = network 192.168.10.0. Host B's network = 192.168.20.0. Different networks → Host A cannot reach B directly. It must send to its default gateway (the router). Host A ARPs for the GATEWAY's MAC, not Host B's MAC. The router then forwards to Host B."
+},
+{
+  topic:'Ethernet/IPv4', tc:'t-eth', day:'D5-8',
+  sc:`Network: 172.16.0.0/12
+Subnets needed: 30
+Hosts per subnet: 1000`,
+  q:"How many bits must you borrow from the host portion of 172.16.0.0/12 to create at least 30 subnets?",
+  opts:["4 bits (16 subnets — not enough)","5 bits (32 subnets ≥ 30) → /17","6 bits (64 subnets) → /18","3 bits (8 subnets — not enough)"],
+  ans:1,
+  expl:"To get ≥30 subnets: 2^n ≥ 30. 2^4=16 (not enough). 2^5=32 ≥ 30 ✓. Borrow 5 bits from /12 → /17. Each subnet: 2^(32-17)-2 = 32766 usable hosts ≥ 1000 ✓. Always verify both constraints: enough subnets AND enough hosts."
+},
+{
+  topic:'Ethernet/IPv4', tc:'t-eth', day:'D5-8',
+  q:"What is the broadcast address of 192.168.5.64/26?",
+  opts:["192.168.5.127","192.168.5.128","192.168.5.95","192.168.5.255"],
+  ans:0,
+  expl:"/26 = 64 addresses per subnet. Subnets: .0-.63, .64-.127, .128-.191, .192-.255. The subnet 192.168.5.64/26 spans .64 to .127. Broadcast = last address = .127. Network = .64. Usable hosts = .65 to .126."
+},
+
+/* ══ VLANs / DTP / VTP — Days 9-12 ══ */
+{
+  topic:'VLANs', tc:'t-vlan', day:'D9-12',
+  q:"Why are VLANs used in enterprise networks? Select the MOST complete answer.",
+  opts:["To increase physical cable density between switches","To segment broadcast domains, improve security, and logically group users regardless of physical location","To replace routing between subnets entirely","To encrypt traffic between switches"],
+  ans:1,
+  expl:"VLANs create separate Layer 2 broadcast domains. Benefits: (1) Broadcast containment — broadcasts stay within VLAN, (2) Security — VLAN10 users can't communicate directly with VLAN20, (3) Flexibility — users in same VLAN can be on different floors/buildings, (4) Efficiency — smaller broadcast domains = less wasted bandwidth."
+},
+{
+  topic:'VLANs', tc:'t-vlan', day:'D9-12',
+  sc:`SW1 Gi0/1 config:
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30
+
+SW2 Gi0/1 config:
+switchport mode trunk
+switchport trunk native vlan 1`,
+  q:"SW1 and SW2 are connected via a trunk. What problem exists and what symptom will you see?",
+  opts:["No problem — native VLAN only matters for security","Native VLAN mismatch: untagged frames from SW1 (VLAN99) are received in VLAN1 by SW2. CDP/Syslog will show: 'Native VLAN mismatch discovered'","The trunk won't form until native VLANs match","SW2 will block the port due to STP inconsistency"],
+  ans:1,
+  expl:"Native VLAN MUST match on both ends of a trunk. SW1 sends untagged frames as VLAN99; SW2 receives them as VLAN1. This causes frames to appear in wrong VLANs — a VLAN hopping security risk. Cisco generates CDP native VLAN mismatch warnings. Traffic is not dropped (unlike mismatched allowed VLANs) but goes to wrong VLAN."
+},
+{
+  topic:'VLANs', tc:'t-vlan', day:'D9-12',
+  q:"What is the purpose of DTP (Dynamic Trunking Protocol)?",
+  opts:["Assigns VLAN memberships to ports automatically","Negotiates trunk link formation between Cisco switches — determines if a link should be a trunk or access port","Distributes VLAN databases across the network","Prevents loops by blocking redundant ports"],
+  ans:1,
+  expl:"DTP is Cisco proprietary. It automatically negotiates whether an inter-switch link becomes a trunk. DTP modes: Dynamic Auto (waits to be asked), Dynamic Desirable (actively tries to form trunk), Trunk (unconditional), Access (unconditional). Best practice: disable DTP with 'switchport nonegotiate' and set mode explicitly for security."
+},
+{
+  topic:'VLANs', tc:'t-vlan', day:'D9-12',
+  q:"VTP (VLAN Trunking Protocol) Server mode is configured on SW1. An engineer accidentally deletes all VLANs on SW1. What happens to all other switches running VTP Client mode?",
+  opts:["Client switches keep their VLANs — they only receive updates, not deletions","All client switches lose their VLANs — VTP propagates the empty VLAN database to all clients","Only adjacent switches are affected","VTP revision number prevents accidental deletion"],
+  ans:1,
+  expl:"VTP propagates the ENTIRE VLAN database from Server to Clients. If the Server's VLAN database is wiped, it sends that empty database to all clients — destroying VLANs network-wide. This is why VTP is dangerous: a switch with a higher revision number (even an old one plugged in) can overwrite the production VLAN database. Best practice: use VTP Transparent or Off mode."
+},
+{
+  topic:'VLANs', tc:'t-vlan', day:'D9-12',
+  sc:`SW1# show vlan brief
+VLAN Name    Status    Ports
+---- ------- --------- -----
+1    default active    Gi0/1, Gi0/3
+10   SALES   active    Fa0/1, Fa0/2
+20   IT      active    Fa0/3
+
+SW1# show interfaces Fa0/1 switchport
+Access Mode VLAN: 10 (SALES)`,
+  q:"PC in port Fa0/1 (VLAN10) cannot reach PC in Fa0/3 (VLAN20). Both PCs have IPs in different subnets. What is needed?",
+  opts:["Add both VLANs to the same port — PCs should share a VLAN","A Layer 3 device (router or L3 switch) to route between VLAN10 and VLAN20 subnets","Configure the trunk to include both VLANs","Create a VLAN 15 bridging the two"],
+  ans:1,
+  expl:"VLANs are separate broadcast/layer-2 domains. Communication between VLANs requires Layer 3 routing (like different physical networks). You need either: (1) Router-on-a-stick (subinterfaces on a router), (2) Layer 3 switch with SVIs and 'ip routing'. Switches alone cannot route between VLANs."
+},
+
+/* ══ STP / RSTP / EtherChannel — Days 13-16 ══ */
+{
+  topic:'STP', tc:'t-stp', day:'D13-16',
+  q:"Why does Spanning Tree Protocol exist? What problem does it solve?",
+  opts:["It speeds up convergence when links fail","It prevents broadcast storms and MAC table instability caused by Layer 2 loops in redundant switched networks","It provides load balancing across redundant links","It encrypts traffic between switches"],
+  ans:1,
+  expl:"Without STP, redundant links in a switched network create loops. A single broadcast frame circulates forever (broadcast storm), consuming all bandwidth. Simultaneously, switches flip-flop MAC table entries as the same frame arrives from multiple ports (MAC instability). STP selects a Root Bridge and blocks redundant paths, allowing only one active path."
+},
+{
+  topic:'STP', tc:'t-stp', day:'D13-16',
+  q:"How is the Root Bridge elected in STP?",
+  opts:["The switch with the highest MAC address becomes Root","The switch with the lowest Bridge ID (Priority + MAC) becomes Root Bridge","The switch with the most ports becomes Root","The first switch to boot becomes Root"],
+  ans:1,
+  expl:"Bridge ID = Bridge Priority (default 32768) + VLAN ID (in PVST+) + MAC address. The switch with the LOWEST Bridge ID wins. Priority is compared first — if equal, MAC is compared (lowest wins). To control which switch becomes Root: lower the priority with 'spanning-tree vlan X priority 4096' or use 'spanning-tree vlan X root primary'."
+},
+{
+  topic:'STP', tc:'t-stp', day:'D13-16',
+  sc:`SW1 (Root Bridge) — SW2 — SW3
+SW2's Gi0/2 is in Blocking state (BLK)
+A user plugs a new hub into SW3 Gi0/1`,
+  q:"In classic STP (802.1D), how long does it take for a port to go from Blocking to Forwarding after a topology change?",
+  opts:["Immediately — STP is instant","About 50 seconds: 20s Listening + 15s Learning + 15s Forwarding delay","30 seconds: 15s Listening + 15s Learning","15 seconds — one forward delay period"],
+  ans:1,
+  expl:"Classic STP 802.1D convergence: Blocking (20s max wait) → Listening (15s) → Learning (15s) → Forwarding. Total worst-case: ~50 seconds. RSTP (802.1w) converges in ~1-2 seconds using Proposal/Agreement mechanism and edge ports (PortFast). This is why RSTP replaced classic STP in modern networks."
+},
+{
+  topic:'STP', tc:'t-stp', day:'D13-16',
+  q:"What is PortFast and why should it NEVER be enabled on a port connected to another switch?",
+  opts:["PortFast makes a port a Root Port — enabling it on switch ports causes multiple Root Ports","PortFast skips Listening/Learning states, going directly to Forwarding. On a switch-to-switch link, if that switch has a superior BPDU, STP topology would be corrupted without the transition delay","PortFast disables STP entirely on that port — safe for switches but not for PCs","PortFast is for trunk ports only"],
+  ans:1,
+  expl:"PortFast puts a port directly into Forwarding state (skipping 30s of Listening + Learning). Safe for end-devices (PCs, servers) that can't create loops. DANGEROUS on switch ports because: if a switch is connected, it may have a better Bridge ID, and BPDUs need to be processed before forwarding. PortFast + BPDU Guard = if a BPDU is received, port goes err-disabled."
+},
+{
+  topic:'STP', tc:'t-stp', day:'D13-16',
+  q:"What is the difference between LACP 'active' mode and 'passive' mode in EtherChannel?",
+  opts:["Active sends LACP PDUs unconditionally; Passive only responds — at least one side must be Active for the channel to form","Both must be Active for EtherChannel to work","Passive is for Layer 3 EtherChannel; Active is for Layer 2","Active = PAgP, Passive = LACP"],
+  ans:0,
+  expl:"LACP (IEEE 802.3ad): Active = sends LACP PDUs proactively. Passive = only responds to LACP PDUs, doesn't initiate. Valid combinations: Active+Active or Active+Passive. Passive+Passive = no channel (neither sends PDUs first). 'mode on' = static bundling, no protocol — if other side uses LACP/PAgP, channel fails."
+},
+{
+  topic:'STP', tc:'t-stp', day:'D13-16',
+  sc:`DS1# show etherchannel summary
+Group  Port-channel  Protocol  Ports
+------+-------------+---------+----------
+1      Po1(SU)       LACP      Gi0/1(P) Gi0/2(P)`,
+  q:"What do the codes 'SU' and 'P' indicate in this EtherChannel output?",
+  opts:["SU = Standby Unused; P = Primary port","SU = (S)Layer2 in use (U)p; P = port is bundled in the port-channel — everything is working correctly","SU = Static Unconditional; P = Passive mode","SU = Shutdown; P = Pending negotiation"],
+  ans:1,
+  expl:"EtherChannel status codes: S = Layer2, U = in use (up). So SU = Layer 2 EtherChannel that is up. P = port is bundled and active in the port-channel. Other codes to know: D = down, s = standalone (not bundled — failure!), I = stand-alone, w = waiting. 'P' on all member ports confirms the EtherChannel is healthy."
+},
+
+/* ══ Static Routes / IPv4 Routing — Days 17-20 ══ */
+{
+  topic:'Routing', tc:'t-route', day:'D17-20',
+  q:"What is Administrative Distance (AD) and why does it matter?",
+  opts:["The number of hops to reach a destination — lower is better","A rating of trustworthiness of a routing information source — when multiple protocols learn the same route, the one with LOWEST AD is installed in the routing table","The metric used within a single routing protocol to choose the best path","The cost of a link in OSPF"],
+  ans:1,
+  expl:"AD is a per-protocol trustworthiness value. When two protocols learn the same prefix, the one with lower AD wins: Connected=0, Static=1, EIGRP=90, OSPF=110, RIP=120. Example: if OSPF and RIP both learn 10.0.0.0/8, OSPF (AD=110) beats RIP (AD=120). Within a single protocol, metric determines the best path."
+},
+{
+  topic:'Routing', tc:'t-route', day:'D17-20',
+  sc:`R1# show ip route
+C  192.168.1.0/24 is directly connected, Gi0/1
+S  10.0.0.0/8 [1/0] via 192.168.1.254
+R1 also has:
+S  10.0.1.0/24 [1/0] via 192.168.1.1`,
+  q:"R1 receives a packet destined for 10.0.1.50. Which route does it use?",
+  opts:["S 10.0.0.0/8 — it was learned first","S 10.0.1.0/24 — the more specific /24 matches and is preferred over the less specific /8","Both routes are used simultaneously (load balancing)","Neither — R1 drops the packet (two routes conflict)"],
+  ans:1,
+  expl:"Longest prefix match (LPM): when multiple routes match a destination, the one with the longest (most specific) prefix wins. 10.0.1.50 matches BOTH 10.0.0.0/8 AND 10.0.1.0/24. The /24 is more specific (longer prefix) → it wins. This is the most fundamental routing concept — routers always prefer the most specific match."
+},
+{
+  topic:'Routing', tc:'t-route', day:'D17-20',
+  q:"What is a floating static route and when is it used?",
+  opts:["A static route with a next-hop IP that changes dynamically","A backup static route with a higher AD than the primary routing protocol. If the primary route fails, the floating static route becomes active","A static route for the 0.0.0.0/0 default route","A static route that load-balances across multiple paths"],
+  ans:1,
+  expl:"Floating static route has a manually set AD higher than the primary routing protocol. Example: OSPF primary (AD=110), floating static set to AD=115. Normally, OSPF route is preferred. If OSPF adjacency fails and the route is removed, the floating static (AD=115) becomes active as a backup. Useful for dial-backup or secondary ISP links."
+},
+{
+  topic:'Routing', tc:'t-route', day:'D17-20',
+  sc:`R1 routing table:
+Gateway of last resort: 192.168.1.1 to network 0.0.0.0
+S* 0.0.0.0/0 [1/0] via 192.168.1.1
+O  10.0.0.0/8 [110/2] via 10.1.1.2
+C  192.168.1.0/24 is directly connected Gi0/0`,
+  q:"R1 receives a packet for 172.16.5.100. None of the routes specifically match. What happens?",
+  opts:["R1 drops the packet and sends ICMP Unreachable","R1 forwards using the default route (0.0.0.0/0) via 192.168.1.1","R1 broadcasts an ARP for 172.16.5.100","R1 checks the ARP table for 172.16.5.100"],
+  ans:1,
+  expl:"0.0.0.0/0 (the default route or 'gateway of last resort') matches ANY destination that has no more specific match. It's the catch-all. R1 forwards to 192.168.1.1 which presumably knows how to reach 172.16.5.100. Without a default route, R1 would drop the packet and send ICMP Destination Unreachable back to the source."
+},
+{
+  topic:'Routing', tc:'t-route', day:'D17-20',
+  q:"What is a recursive routing lookup and when does it happen?",
+  opts:["When the router checks both IPv4 and IPv6 routing tables simultaneously","When a next-hop IP is specified in a static route and the router must look up that next-hop IP in its routing table to find the exit interface","When EIGRP queries all neighbors for a route","When a router performs NAT translation before routing"],
+  ans:1,
+  expl:"If a static route uses a next-hop IP address (not an exit interface), the router must do a second lookup: 'I need to forward to 10.0.12.2 — where is that?' It checks its routing table for 10.0.12.2 and finds it's via Gi0/0. This is recursive lookup. To avoid it: specify the exit interface directly in the static route, or both next-hop + interface."
+},
+
+/* ══ RIP / EIGRP — Days 21-24 ══ */
+{
+  topic:'RIP/EIGRP', tc:'t-rip', day:'D21-24',
+  q:"RIPv2 has a maximum hop count of 15. What happens to a route with 16 hops?",
+  opts:["It is learned but marked as unreliable","It is treated as unreachable (infinity) and discarded — RIP cannot route beyond 15 hops","It is passed to OSPF for processing","RIP automatically summarizes it to reduce hop count"],
+  ans:1,
+  expl:"RIP uses hop count as its metric (1 hop = 1 router traversed). Maximum = 15 hops. Hop count 16 = infinity = unreachable. This is RIP's biggest limitation — networks larger than 15 routers cannot be fully reached with RIP. Modern enterprises use OSPF or EIGRP which scale beyond this limit."
+},
+{
+  topic:'RIP/EIGRP', tc:'t-rip', day:'D21-24',
+  q:"What is RIP's split horizon rule and why does it prevent routing loops?",
+  opts:["RIP summarizes routes at network boundaries to prevent loops","RIP does not advertise a route back out the interface it learned it from — preventing a router from thinking it can reach a network via a router that depends on it","RIP sends poison reverse: advertises failed routes with metric 16","Split horizon limits the maximum hop count to 15"],
+  ans:1,
+  expl:"Split horizon: if R1 learns about 10.0.0.0/8 from R2, R1 will NOT advertise 10.0.0.0/8 back to R2. Without this, if 10.0.0.0/8 fails, R2 might think R1 has a path to it, R1 thinks R2 has it — they keep advertising to each other, incrementing metric until infinity (count to infinity problem). Split horizon breaks this loop."
+},
+{
+  topic:'RIP/EIGRP', tc:'t-rip', day:'D21-24',
+  q:"EIGRP uses DUAL (Diffusing Update Algorithm). What is the Feasibility Condition and what does it achieve?",
+  opts:["Any route with a metric lower than the Successor's metric can be a Feasible Successor","The Feasible Successor's Reported Distance must be strictly LESS THAN the Successor's Feasible Distance — guarantees loop-free backup paths","DUAL requires all EIGRP neighbors to acknowledge route changes","The Feasibility Condition prevents route summarization in EIGRP"],
+  ans:1,
+  expl:"EIGRP Feasibility Condition (FC): a neighbor's Reported Distance (RD) to a network must be < the current Successor's Feasible Distance (FD). This MATHEMATICALLY guarantees the backup path (Feasible Successor) is loop-free. If FC is met, the Feasible Successor is pre-computed and instantly activated on failure — no recomputation needed."
+},
+{
+  topic:'RIP/EIGRP', tc:'t-rip', day:'D21-24',
+  sc:`R2# show ip eigrp topology
+P 10.0.0.0/8, 1 successors, FD is 28160
+via 10.1.1.1 (28160/25600), Gi0/0   ← Successor
+via 10.2.2.1 (30720/28160), Gi0/1   ← candidate`,
+  q:"Is the route via 10.2.2.1 a Feasible Successor? Why or why not?",
+  opts:["Yes — it has a higher total metric so it's always the backup","No — its Reported Distance (28160) is NOT less than the Successor's FD (28160). FC requires RD < FD strictly","Yes — any route in the topology table is a Feasible Successor","No — EIGRP only allows one path per destination"],
+  ans:1,
+  expl:"Feasibility Condition: neighbor's RD must be STRICTLY LESS THAN Successor's FD. Successor's FD = 28160. Candidate via 10.2.2.1 has RD = 28160. 28160 is NOT less than 28160 (must be strictly less). FC is not met → NOT a Feasible Successor. It's just an EIGRP topology entry. If the Successor fails, EIGRP must query neighbors (slower convergence)."
+},
+{
+  topic:'RIP/EIGRP', tc:'t-rip', day:'D21-24',
+  q:"EIGRP uses 5 packet types. Which one is sent to establish and maintain neighbor relationships, and what happens if it stops being received?",
+  opts:["Update packets maintain neighbors — if lost, routes are re-requested","Hello packets establish and maintain EIGRP adjacencies. If Hellos stop (holdtime expires), the neighbor is declared dead and routes are removed","Query packets check if neighbors are still alive","Ack packets confirm neighbor liveness"],
+  ans:1,
+  expl:"EIGRP Hello packets are sent multicast (224.0.0.10) every 5 seconds on Fast/GigE links, every 60 seconds on slow links. If no Hello is received within the Hold Time (default 15s on Fast/GigE, 180s on slow), the neighbor is considered dead. EIGRP removes all routes learned from that neighbor and may begin DUAL recomputation."
+},
+
+/* ══ OSPF — Days 25-28 ══ */
+{
+  topic:'OSPF', tc:'t-ospf', day:'D25-28',
+  q:"OSPF goes through multiple neighbor states before reaching FULL adjacency. What happens in the EXSTART state?",
+  opts:["Routers exchange their full link state databases","Routers elect a Master/Slave relationship and agree on starting sequence numbers for DBD exchange","Routers send Hello packets to discover each other","Routers flood LSAs to all neighbors"],
+  ans:1,
+  expl:"OSPF neighbor states: Down → Init → 2-Way → ExStart → Exchange → Loading → Full. ExStart: the two routers elect Master (higher Router-ID) and Slave, agree on starting DBD sequence numbers. Exchange: they exchange DBD (Database Description) summaries. Loading: request and receive missing LSAs. Full: databases synchronized."
+},
+{
+  topic:'OSPF', tc:'t-ospf', day:'D25-28',
+  q:"On a multi-access network (like Ethernet), OSPF elects a DR and BDR. What problem does this solve?",
+  opts:["It prevents routing loops between OSPF routers","Without DR/BDR, each router would form full adjacency with every other router — n*(n-1)/2 adjacencies. DR/BDR reduces this to n-1 adjacencies, reducing overhead","The DR is the only router that can advertise external routes","The BDR backs up the DR in case of power failure"],
+  ans:1,
+  expl:"On a broadcast segment with n routers: without DR, each pair forms full adjacency = n*(n-1)/2. With 5 routers = 10 adjacencies. With DR/BDR: all DROthers only form FULL adjacency with DR and BDR (not with each other) = 2*(n-2)+1 = much fewer. DROthers are in 2-Way state with each other. This saves bandwidth and CPU."
+},
+{
+  topic:'OSPF', tc:'t-ospf', day:'D25-28',
+  sc:`R2# show ip ospf neighbor
+Neighbor ID  Pri  State    Dead Time
+1.1.1.1      1    FULL/-   00:00:36   Gi0/0
+3.3.3.3      1    2WAY/DROTHER 00:00:32  Gi0/1`,
+  q:"R2 shows state 2WAY/DROTHER with R3. Is this normal? What does it mean?",
+  opts:["Abnormal — 2WAY means the adjacency is broken and needs troubleshooting","Normal — on a broadcast segment, non-DR/BDR routers (DROthers) stay in 2WAY state with each other. They only reach FULL state with DR and BDR","2WAY means they are negotiating parameters — it will become FULL soon","Abnormal — DROTHER is an error state indicating a failed election"],
+  ans:1,
+  expl:"2WAY/DROTHER is completely normal on multi-access segments. R2 and R3 are both DROthers (neither is DR or BDR). DROthers exchange Hellos with each other (confirming they see each other = 2-Way) but don't form full LSA exchange. They only go to FULL with the DR and BDR. FULL/- on point-to-point links (no DR/BDR election)."
+},
+{
+  topic:'OSPF', tc:'t-ospf', day:'D25-28',
+  q:"OSPF cost is calculated as: Cost = Reference Bandwidth / Interface Bandwidth. What problem occurs if you have gigabit and 10-gigabit interfaces with the default reference bandwidth of 100 Mbps?",
+  opts:["No problem — OSPF adjusts automatically","Both gigabit (1000 Mbps) and 10-gigabit (10000 Mbps) get cost = 1 (100/1000 < 1, rounds to 1). OSPF cannot distinguish between them — fix with 'auto-cost reference-bandwidth 10000'","OSPF refuses to run on interfaces faster than the reference bandwidth","The cost becomes negative for gigabit interfaces"],
+  ans:1,
+  expl:"Default reference bandwidth = 100 Mbps. FastEthernet: 100/100=1. GigabitEthernet: 100/1000=0.1 → rounds to 1. 10GigE: also rounds to 1. OSPF sees Fa, Gi, and 10Gi all with cost 1 — cannot differentiate! Fix: 'auto-cost reference-bandwidth 10000' (10Gbps) on ALL routers (must be consistent). Or manually set cost with 'ip ospf cost'."
+},
+{
+  topic:'OSPF', tc:'t-ospf', day:'D25-28',
+  q:"What is the purpose of OSPF areas and what is the role of the Area Border Router (ABR)?",
+  opts:["Areas divide the network into VLANs; ABR translates between VLANs","Areas limit LSA flooding scope — LSAs stay within their area. ABR connects two or more areas, summarizes type-3 LSAs, and reduces the size of each router's LSDB","Areas provide separate OSPF process IDs; ABR merges them","Areas are only needed for networks with more than 50 routers"],
+  ans:1,
+  expl:"Without areas, every router floods LSAs to every other router — LSDB grows huge, SPF computation takes longer. Areas contain LSA flooding: Type 1/2 LSAs stay within area. ABR sits on area boundary, generates Type 3 Summary LSAs to advertise inter-area routes, optionally summarizes them. Area 0 (backbone) is mandatory — all areas must connect to it."
+},
+{
+  topic:'OSPF', tc:'t-ospf', day:'D25-28',
+  sc:`R3# show ip ospf neighbor
+(empty output — no neighbors)
+
+R3 config:
+router ospf 1
+ network 10.0.0.0 0.255.255.255 area 0
+
+R3 interface Gi0/0: 10.0.12.2/30
+Connected to R1 Gi0/1: 10.0.12.1/30`,
+  q:"Why does R3 have no OSPF neighbors? R1 has OSPF configured and is reachable (ping works).",
+  opts:["OSPF process ID must match on both routers","The subnet 10.0.12.2/30 matches 10.0.0.0/0.255.255.255 but check: R1's OSPF area might differ, or there's a Hello/Dead timer mismatch, or authentication is configured on one side","R3 needs to be rebooted to pick up the OSPF configuration","The 'network' command requires the exact interface IP, not a range"],
+  ans:1,
+  expl:"Common OSPF neighbor failure causes: (1) Area mismatch, (2) Hello/Dead timer mismatch (must match), (3) Authentication mismatch, (4) MTU mismatch (causes EXSTART/EXCHANGE stuck), (5) Network/subnet mask mismatch (neighbors in different subnets), (6) Passive interface configured on the link, (7) ACL blocking OSPF multicast (224.0.0.5/6). Use 'debug ip ospf hello' to diagnose."
+},
+
+/* ══ IPv6 — Days 29-32 ══ */
+{
+  topic:'IPv6', tc:'t-ipv6', day:'D29-32',
+  q:"What is the purpose of EUI-64 in IPv6 address generation?",
+  opts:["EUI-64 compresses IPv6 addresses from 128 to 64 bits for efficiency","EUI-64 derives the 64-bit interface identifier from the device's 48-bit MAC address by inserting FF:FE in the middle and flipping the 7th bit","EUI-64 is the encryption method used for IPv6 neighbor discovery","EUI-64 auto-assigns the network prefix using DHCPv6"],
+  ans:1,
+  expl:"EUI-64 creates a unique interface ID: (1) Split 48-bit MAC into two 24-bit halves, (2) Insert FF:FE between them → 64-bit value, (3) Flip the 7th bit (Universal/Local bit) of the first byte. Example: MAC AA:BB:CC:11:22:33 → EUI-64: A8BB:CCFF:FE11:2233 (A8 = AA with 7th bit flipped). Combined with /64 prefix = full IPv6 address."
+},
+{
+  topic:'IPv6', tc:'t-ipv6', day:'D29-32',
+  q:"What is a Link-Local address in IPv6? When is it used and why is it required?",
+  opts:["An address usable only within a single subnet — fe80::/10 range","An address that works on the local network segment only (fe80::/10). Every IPv6 interface MUST have one. Used for neighbor discovery (NDP), router discovery, and as next-hop in routing protocols — never routed beyond the local link","An IPv6 address assigned by DHCPv6 to devices on the local LAN","A deprecated address type replaced by ULA in IPv6"],
+  ans:1,
+  expl:"Link-Local (fe80::/10) is mandatory on every IPv6 interface. It enables: (1) NDP — Neighbor Solicitation/Advertisement (replaces ARP), (2) Router Solicitation/Advertisement, (3) OSPF/EIGRP next-hops, (4) Static route next-hops. Critical: link-local addresses are not globally unique — same fe80:: can exist on every network segment. When used as next-hop in static routes, you MUST also specify the exit interface."
+},
+{
+  topic:'IPv6', tc:'t-ipv6', day:'D29-32',
+  q:"NDP (Neighbor Discovery Protocol) replaces multiple IPv4 protocols. What IPv4 function does ICMPv6 Neighbor Solicitation/Advertisement replace?",
+  opts:["DNS — resolves hostnames to IPv6 addresses","ARP — resolves IPv6 addresses to MAC addresses (like ARP Request/Reply in IPv4)","DHCP — automatically assigns IPv6 addresses","ICMP Ping — tests connectivity between hosts"],
+  ans:1,
+  expl:"NDP replaces/improves several IPv4 protocols: (1) ARP → Neighbor Solicitation/Advertisement (uses multicast, not broadcast — more efficient), (2) ICMP Router Discovery → Router Solicitation/Advertisement, (3) ICMP Redirect. Additionally, NDP enables SLAAC (Stateless Address Autoconfiguration) and Duplicate Address Detection (DAD)."
+},
+{
+  topic:'IPv6', tc:'t-ipv6', day:'D29-32',
+  q:"What is SLAAC (Stateless Address Autoconfiguration) and how does a host generate its IPv6 address?",
+  opts:["SLAAC uses a central server to assign addresses — similar to DHCPv4","Host receives Router Advertisement with network prefix (/64), combines it with EUI-64 (or random) interface ID to form a full /128 address — no server needed","SLAAC uses the last 32 bits of the MAC address as the host portion","SLAAC only works with link-local addresses"],
+  ans:1,
+  expl:"SLAAC process: (1) Host sends Router Solicitation (multicast ff02::2), (2) Router replies with Router Advertisement containing network prefix (e.g., 2001:DB8::/64), (3) Host combines prefix + EUI-64 interface ID → full address (e.g., 2001:DB8::A8BB:CCFF:FE11:2233/64). No DHCPv6 server needed. Host also performs DAD to verify uniqueness."
+},
+{
+  topic:'IPv6', tc:'t-ipv6', day:'D29-32',
+  sc:`R1 routing table:
+IPv6 Routing Table
+C 2001:DB8:12::/64 [0/0]
+   via GigabitEthernet0/1, directly connected
+L 2001:DB8:12::1/128 [0/0]
+S 2001:DB8:20::/48 [1/0]
+   via FE80::2, GigabitEthernet0/1`,
+  q:"Why does the static route specify BOTH 'via FE80::2' AND 'GigabitEthernet0/1'?",
+  opts:["It's optional — you can specify either next-hop or interface","Link-local addresses (FE80::) are not globally unique. The router needs the exit interface to know WHICH link's FE80::2 is meant — otherwise it can't resolve the next-hop","GigabitEthernet0/1 provides load balancing","FE80::2 is only used for error messages; the exit interface handles forwarding"],
+  ans:1,
+  expl:"FE80::/10 link-local addresses are unique per link but NOT globally unique. The same FE80::2 could exist on every interface of every router. Without the exit interface, the router cannot determine which physical interface to use. This is a frequently tested CCNA point: IPv6 static routes with link-local next-hops MUST specify the exit interface."
+},
+{
+  topic:'IPv6', tc:'t-ipv6', day:'D29-32',
+  q:"What is the IPv6 address type 'FC00::/7' and how does it differ from Global Unicast addresses?",
+  opts:["FC00::/7 is the link-local range — same as FE80::/10","FC00::/7 is the Unique Local Address (ULA) range — roughly equivalent to IPv4 RFC 1918 private addresses. Routable within an organization but not on the public internet","FC00::/7 is multicast — used for routing protocols","FC00::/7 is deprecated and should not be used"],
+  ans:1,
+  expl:"IPv6 address types: Global Unicast (2000::/3) = public internet addresses. Link-Local (FE80::/10) = single segment only. Unique Local (FC00::/7, typically FD00::/8) = private, organization-internal. Multicast (FF00::/8). Loopback = ::1/128. Unspecified = ::/128. ULA is like IPv4 10.x, 172.16.x, 192.168.x — not routed on internet."
+},
+
+/* ══ FHRP — Days 33-36 ══ */
+{
+  topic:'FHRP', tc:'t-fhrp', day:'D33-36',
+  q:"Why do we need FHRP (First Hop Redundancy Protocols)? What problem do they solve?",
+  opts:["They provide load balancing between multiple servers","End devices are configured with a single static default gateway. If that router fails, all devices lose connectivity. FHRP creates a virtual gateway IP/MAC shared between multiple routers so the failure of one router is transparent","They replace dynamic routing protocols for small networks","They allow multiple DHCP servers to share address pools"],
+  ans:1,
+  expl:"Hosts have ONE default gateway configured. If the router fails, the host can't change its gateway automatically. FHRP (HSRP, VRRP, GLBP) creates a Virtual IP (VIP) and Virtual MAC shared by two+ routers. Hosts point to the VIP. If the Active router fails, the Standby takes over the VIP within seconds — hosts don't notice because the IP and MAC they're using haven't changed."
+},
+{
+  topic:'FHRP', tc:'t-fhrp', day:'D33-36',
+  q:"In HSRP, what is the difference between the Active router and the Standby router? How does failover occur?",
+  opts:["Active handles traffic; Standby handles management only","Active router owns the VIP and virtual MAC and forwards all traffic. Standby monitors the Active via Hello packets. If Active fails (hold time expires), Standby sends a Coup message and takes over VIP/vMAC within the hold time (~10 seconds)","Both routers handle traffic simultaneously","Standby router handles traffic only during scheduled maintenance"],
+  ans:1,
+  expl:"HSRP: Active router = owns VIP (e.g., 192.168.1.254) and virtual MAC (0000.0C07.ACxx for v1). Sends Hellos every 3s. Standby router = monitors, ready to take over. If Active Hello stops for Hold Time (default 10s), Standby becomes Active. With 'preempt' enabled, if original Active recovers with higher priority, it reclaims Active role automatically."
+},
+{
+  topic:'FHRP', tc:'t-fhrp', day:'D33-36',
+  sc:`R1: standby 1 priority 110, standby 1 preempt → Active
+R2: standby 1 priority 100 → Standby
+R1 loses power. R2 takes over.
+R1 comes back online 5 minutes later.`,
+  q:"R1 has higher priority (110) and preempt. What happens when R1 comes back online?",
+  opts:["R2 stays Active — preempt only works during initial election","R1 remains Standby until manually forced to Active","R1 immediately reclaims Active role because its priority (110) > R2 (100) and preempt is configured — R1 sends a Coup to R2","R1 and R2 enter a negotiation phase lasting 30 seconds"],
+  ans:2,
+  expl:"'preempt' = a router with higher priority will overthrow the current Active even if it just came back online. Without preempt, the current Active stays Active regardless of priorities. With preempt: R1 comes back, sees R2 as Active, R1's priority 110 > R2's 100 → R1 sends HSRP Coup message → R2 transitions to Standby → R1 becomes Active. The preemption delay can be configured to avoid flapping."
+},
+{
+  topic:'FHRP', tc:'t-fhrp', day:'D33-36',
+  q:"What is the key difference between HSRP, VRRP, and GLBP?",
+  opts:["HSRP = Cisco proprietary, only Active router forwards; VRRP = IEEE standard, only Master forwards; GLBP = Cisco proprietary, ALL gateways forward simultaneously (load balancing per host)","HSRP = layer 2, VRRP = layer 3, GLBP = layer 4","VRRP is faster than HSRP but less secure; GLBP requires SDN","They are identical — just different vendor implementations"],
+  ans:0,
+  expl:"HSRP (Cisco only): one Active, one Standby. Only Active forwards. Virtual MAC: 0000.0C07.ACxx (v1) or 0000.0C9F.Fxxx (v2). VRRP (IEEE 802.1vg, open standard): one Master, rest are Backup. Master uses its own MAC or virtual MAC. GLBP (Cisco only): one AVG (Active Virtual Gateway) assigns different virtual MACs to AVFs (Active Virtual Forwarders) — all routers forward traffic simultaneously per-host. True load balancing."
+},
+{
+  topic:'FHRP', tc:'t-fhrp', day:'D33-36',
+  q:"You configure HSRP on R1 and R2. PC1 (192.168.1.50) is configured with default gateway 192.168.1.254 (the HSRP VIP). R1 is Active. PC1 sends traffic to the internet. Which MAC address does PC1 put as destination in the Ethernet frame?",
+  opts:["R1's physical MAC address (learned via ARP for R1's real IP)","The HSRP Virtual MAC address (e.g., 0000.0C9F.F001 for HSRPv2 group 1) — PC1 ARPs for 192.168.1.254 and receives the virtual MAC","FF:FF:FF:FF:FF:FF (broadcast) because HSRP uses broadcast","R2's physical MAC as backup"],
+  ans:1,
+  expl:"PC1 ARPs for 192.168.1.254 (its default gateway = HSRP VIP). The Active router (R1) replies with the HSRP VIRTUAL MAC address — not R1's physical MAC. This is crucial: if R2 takes over as Active, it still uses the SAME virtual MAC. PC1's ARP cache entry remains valid — no ARP refresh needed. Traffic continues without interruption."
+},
+
+/* ══ IP Services — Days 37-40 ══ */
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  q:"NTP stratum levels go from 0 to 16. What does stratum 16 mean and when do you see it on a Cisco router?",
+  opts:["Stratum 16 = the most accurate source (atomic clock)","Stratum 16 = unsynchronized — the device has no valid time source. You see it on a router before NTP synchronization completes or if the NTP server is unreachable","Stratum 16 = maximum allowed server distance","Stratum 16 = NTP is administratively disabled"],
+  ans:1,
+  expl:"Stratum hierarchy: 0 = reference clock (GPS/atomic, not on network), 1 = directly connected to Stratum 0, 2 = synced from Stratum 1, etc. Stratum 16 = not synchronized = invalid. 'show ntp status' shows 'Clock is unsynchronized, stratum 16' before sync. After sync, stratum = server's stratum + 1. 'ntp master 3' on a router makes it stratum 3 internally."
+},
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  q:"DHCP uses the DORA process. Why is the DHCP REQUEST (step 3) sent as a broadcast even though the client received an OFFER from the server and knows its IP?",
+  opts:["Because the client doesn't have an IP yet — it must use broadcast","Because the client wants to notify all DHCP servers on the network that it has accepted one offer (and implicitly rejected all others). Also, the client still uses 0.0.0.0 as source IP","To ensure the DHCP server receives the request reliably","Because DHCP uses UDP which only supports broadcast"],
+  ans:1,
+  expl:"DHCP Request is broadcast for two reasons: (1) The client's IP isn't yet confirmed — it technically still has no valid IP. (2) There may be multiple DHCP servers that sent offers. The broadcast REQUEST tells ALL of them which offer was accepted. Losing servers release their offered IP back to the pool. After ACK, future renewals use unicast directly to the server."
+},
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  sc:`R1# show ip dhcp binding
+(empty)
+
+PC1 is connected to SW1 → SW1 uplink → R2 → R1 (DHCP server)
+R2 Gi0/1 config: ip address 192.168.10.1 255.255.255.0
+No ip helper-address configured`,
+  q:"PC1 sends a DHCP Discover but never gets an IP. R1 has a valid DHCP pool for 192.168.10.0/24. What is the problem?",
+  opts:["R1's DHCP pool has the wrong network address","PC1's NIC is faulty","R2 is not configured with 'ip helper-address' — DHCP broadcasts from PC1 cannot cross the router to reach R1 (the DHCP server in a different subnet)","R1 needs 'ip dhcp server' command to enable the service"],
+  ans:2,
+  expl:"DHCP Discover is a broadcast (255.255.255.255). Routers don't forward broadcasts by default. R2 receives PC1's Discover on Gi0/1 and drops it — R1 never sees it. Solution: 'ip helper-address <R1-IP>' on R2's Gi0/1 interface. This converts the broadcast to unicast and forwards it to R1. R1 responds, R2 relays back. GIADDR field tells R1 which pool to use."
+},
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  q:"DNS uses both UDP and TCP port 53. When does DNS switch from UDP to TCP?",
+  opts:["DNS always uses TCP — UDP is only for broadcast-based queries","DNS uses UDP for standard queries (faster, less overhead). It switches to TCP when the response exceeds 512 bytes (with EDNS0 up to 4096 bytes), and ALWAYS uses TCP for zone transfers (AXFR/IXFR) between DNS servers","DNS uses TCP on port 53 and UDP on port 5353 (mDNS)","TCP is used only for DNSSEC-signed responses"],
+  ans:1,
+  expl:"DNS default = UDP/53 (low overhead for small queries). TCP/53 is used when: (1) Response > 512 bytes (traditional limit) or > 4096 bytes with EDNS0 — the response sets TC (Truncated) bit, client retries with TCP, (2) Zone transfers between DNS servers (AXFR/IXFR) — always TCP because they transfer entire zone files. Both ports 53 (UDP+TCP) must be open in firewalls."
+},
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  q:"SNMP has Traps and Informs. An engineer says 'I prefer Informs over Traps for critical alerts.' Why?",
+  opts:["Informs use TCP, making them more reliable than UDP-based Traps","Informs require an acknowledgement from the Manager. If the Manager doesn't respond, the Agent retransmits. Traps are fire-and-forget — if the Manager is down or the packet is lost, the alert disappears silently","Informs support SNMPv3 encryption; Traps do not","Informs are sent to multiple managers simultaneously; Traps go to only one"],
+  ans:1,
+  expl:"Both Traps and Informs use UDP/162. The difference is acknowledgement: Trap = sent once, no confirmation, if lost it's gone. Inform = sent, Manager sends acknowledgement back, Agent retransmits if no ACK received. For critical alerts (interface down, power failure), losing the notification is unacceptable → Informs are preferred. Downside: Informs consume more resources on the Agent."
+},
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  q:"Syslog severity levels range from 0 to 7. You configure 'logging trap 4' (warnings). A link goes down generating '%LINK-3-UPDOWN' (Error, level 3). Is this message sent to the syslog server?",
+  opts:["No — only level 4 (Warning) messages are sent, not level 3","Yes — 'logging trap 4' sends all messages with severity 4 OR MORE SEVERE (0-4). Level 3 (Error) is more severe than 4 (Warning), so it IS sent","No — interface messages require 'logging trap notifications'","Yes, but only if 'logging on' is configured first"],
+  ans:1,
+  expl:"Syslog filtering: configuring a level sends that level AND all MORE SEVERE (numerically lower) levels. 'logging trap 4' (warnings) sends levels 0,1,2,3,4. Level 3 (Error) is numerically lower = more severe = IS sent. Level 5,6,7 are NOT sent. Think of it as: 'I care about warnings and anything worse than warnings.' Emergency(0) is always sent regardless."
+},
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  q:"Why is NTP critical for Syslog to be useful in troubleshooting?",
+  opts:["NTP provides encryption for Syslog messages","Without NTP, each device has its own clock with different times. When correlating events across multiple devices during an incident, timestamps are meaningless — you can't determine sequence of events. NTP ensures all clocks are synchronized.","NTP transports Syslog messages faster than UDP","Syslog requires NTP authentication to function"],
+  ans:1,
+  expl:"Incident correlation requires accurate timestamps. If R1 shows event at 09:32:15 and SW1 shows related event at 11:47:03 (different local time), you can't reconstruct the event sequence. With NTP synchronizing all clocks to the same authoritative source, R1's 09:32:15 and SW1's 09:32:16 are directly comparable. 'service timestamps log datetime msec' adds millisecond precision."
+},
+
+/* ══ SSH / Telnet / FTP / ACL / Security — Days 41-42 ══ */
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  q:"Why is Telnet considered insecure and what specific attack does SSH prevent?",
+  opts:["Telnet is slower than SSH — only a performance issue","Telnet transmits all data (including username, password, and commands) in cleartext. A packet capture (Wireshark) on the same network reveals everything. SSH encrypts the entire session — even if packets are captured, they're unreadable","Telnet uses UDP making it unreliable for remote management","Telnet doesn't support authentication — anyone can connect"],
+  ans:1,
+  expl:"Telnet security risks: (1) Credentials in cleartext → passive eavesdropping captures username+password, (2) Man-in-the-middle attacks, (3) Session hijacking. SSH protects against all of these via asymmetric crypto for key exchange and symmetric crypto (AES) for session data. Even if someone captures every SSH packet, they see encrypted noise. Use 'transport input ssh' to block Telnet on VTY lines."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  q:"The SSH RSA key generation requires both a 'hostname' and 'ip domain-name' to be configured first. Why?",
+  opts:["hostname and domain-name are used for authentication certificates","Cisco IOS names the RSA key pair as 'hostname.domainname' (e.g., R1.cisco.com). If either is missing or uses default values ('Router'/'Switch'), the key name would be generic — IOS requires both to be explicitly set before generating keys","hostname determines the encryption algorithm; domain-name sets the key length","They are used as SNMP community strings for SSH access"],
+  ans:1,
+  expl:"The RSA key pair is named hostname.domainname. This name is used to identify the key in the keystore. IOS won't generate keys without a non-default hostname and a domain-name. After setting both, 'crypto key generate rsa modulus 2048' generates the key pair. The public key is what gets sent to connecting SSH clients during the handshake."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  q:"What is FTP and how does it differ from TFTP in terms of security and features?",
+  opts:["FTP = encrypted file transfer; TFTP = unencrypted","FTP (TCP 20/21) = authentication (username/password), directory listing, full-featured. TFTP (UDP 69) = no authentication, no directory listing, simple file transfer only. Both transmit data in cleartext — neither is secure. Use SFTP/SCP instead for secure transfers.","FTP uses UDP for speed; TFTP uses TCP for reliability","TFTP supports SSH encryption; FTP does not"],
+  ans:1,
+  expl:"FTP: TCP port 21 (control) + port 20 (active data) or random port (passive data). Features: authentication, directories, rename, delete. Unsecured — credentials in cleartext. TFTP: UDP port 69. No authentication, no directory listing — just GET/PUT. Used for IOS image transfers, DHCP boot files, config backups in controlled environments. Neither encrypts data. SFTP (SSH-based) or SCP for security."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  q:"What is an ACL and what are the two main types used in Cisco IOS?",
+  opts:["ACL = Access Control List. Types: Standard (filters only source IP) and Extended (filters source IP, destination IP, protocol, port numbers)","ACL = Address Control Layer. Types: IPv4 ACL and IPv6 ACL","ACL = Authentication Control List. Types: Named and Numbered","ACL = Access Configuration List. Types: Permit and Deny"],
+  ans:0,
+  expl:"Standard ACL (1-99, 1300-1999): matches source IP only. Place near DESTINATION to avoid blocking too much traffic. Extended ACL (100-199, 2000-2699): matches source+destination IP, protocol (TCP/UDP/ICMP), source+destination port. Much more granular. Place near SOURCE to stop unwanted traffic early. Named ACLs: more descriptive, can edit individual entries. All ACLs have implicit 'deny any' at the end."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  sc:`ip access-list extended FILTER
+ 10 permit tcp 10.0.10.0 0.0.0.255 any eq 80
+ 20 permit tcp 10.0.10.0 0.0.0.255 any eq 443
+ 30 deny ip 10.0.10.0 0.0.0.255 any
+ 40 permit ip any any
+
+Applied on Gi0/0 inbound`,
+  q:"Host 10.0.10.50 tries to ping 8.8.8.8. What happens?",
+  opts:["Permitted — line 40 'permit ip any any' catches ICMP","Denied — line 30 'deny ip 10.0.10.0 0.0.0.255 any' matches before line 40. ACLs process top-to-bottom, first match wins.","Permitted — ICMP is not IP, so line 30 doesn't apply","Denied by implicit deny at end of ACL (line 40 doesn't exist yet)"],
+  ans:1,
+  expl:"ACLs process sequentially (line 10, 20, 30...) — first matching line wins. 10.0.10.50 pings 8.8.8.8 using ICMP. Line 10: TCP? No. Line 20: TCP? No. Line 30: 'deny ip 10.0.10.0 ...' — ICMP is an IP protocol, 10.0.10.50 is in 10.0.10.0/24, destination = any. MATCH → DENIED. Line 40 is never reached. To fix: add 'permit icmp 10.0.10.0 0.0.0.255 any' before line 30."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  q:"An ACL should be placed 'as close to the source as possible' for extended ACLs and 'as close to the destination as possible' for standard ACLs. Why the difference?",
+  opts:["Extended ACLs require more CPU — placing near source reduces router load","Standard ACLs only filter by source IP. If placed near source, they might block the source from reaching ALL destinations (including legitimate ones). Extended ACLs can specify exact source+destination, so placing near source is safe and stops traffic before it travels unnecessarily across the network.","Extended ACLs use ingress filtering; standard ACLs use egress","This is only a recommendation — placement doesn't affect functionality"],
+  ans:1,
+  expl:"Standard ACL matches only source IP. If source is 192.168.1.0/24 and you want to block access to server 10.0.1.5, a standard ACL near the source would block 192.168.1.0/24 from reaching EVERYWHERE (not just 10.0.1.5). Placing near destination (10.0.1.5's subnet) limits the impact. Extended ACL specifies destination explicitly → safe to place near source, stopping traffic early and saving bandwidth."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  sc:`R1# show ip access-lists
+Extended IP access list FILTER
+  10 permit tcp 10.0.0.0 0.0.0.255 host 172.16.1.100 eq 80 (0 matches)
+  20 permit tcp 10.0.0.0 0.0.0.255 host 172.16.1.100 eq 443 (0 matches)
+  30 deny ip any any log (47 matches)`,
+  q:"Line 30 has 47 matches but lines 10 and 20 have 0 matches. HTTP traffic from 10.0.0.0/24 to 172.16.1.100 is failing. What is the most likely problem?",
+  opts:["The ACL needs to be applied to an interface","Lines 10 and 20 have wrong destination port numbers","The ACL is applied in the wrong direction (inbound instead of outbound, or vice versa) — legitimate HTTP traffic doesn't match permit lines because it's being checked from the wrong perspective","'host' keyword is invalid — use 0.0.0.0 wildcard"],
+  ans:2,
+  expl:"'0 matches' on permit lines with '47 matches' on deny any means traffic IS hitting the ACL but not matching the permit lines. If the ACL were applied outbound on a link toward 172.16.1.100, the destination in the outbound packet is 172.16.1.100 — matches. If applied inbound on the RETURN path (response from server), the SOURCE is 172.16.1.100 and DESTINATION is 10.0.0.x — permit lines have it backwards. Check direction and interface with 'show ip interface'."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  q:"What is the 'implicit deny' in an ACL and why is it important to understand?",
+  opts:["It's an optional line that must be manually added","Every ACL automatically ends with an invisible 'deny any any' (or 'deny any' for standard). If no permit line matches the packet, it is silently dropped. This is why you must explicitly permit traffic you want — forgetting a permit statement silently breaks connectivity.","The implicit deny only applies to TCP traffic","It only activates if the ACL has at least 5 rules"],
+  ans:1,
+  expl:"The implicit deny is one of the most dangerous ACL pitfalls. Example: you create an ACL permitting VLAN10 to VLAN20 but forget to permit all other traffic. The implicit deny drops everything else — including routing protocol traffic, OSPF Hellos, NTP, SNMP — silently breaking the network. Always add 'permit ip any any' (if needed) and test with 'show ip access-lists' to verify match counts."
+},
+
+/* Additional Troubleshooting Questions across domains */
+{
+  topic:'Routing', tc:'t-route', day:'D17-20',
+  q:"'show ip route' shows a route to 192.168.5.0/24 with [110/2]. What do 110 and 2 represent?",
+  opts:["110 = metric (OSPF cost), 2 = Administrative Distance","110 = Administrative Distance (OSPF), 2 = metric (cost). Format: [AD/metric]","110 = number of hops, 2 = bandwidth","110 = VLAN ID, 2 = interface number"],
+  ans:1,
+  expl:"Routing table format: [Administrative Distance / Metric]. 110 = OSPF's AD (how trustworthy this route source is). 2 = OSPF metric (sum of costs along the path). Other examples: [1/0] = static route (AD=1, metric=0). [90/28160] = EIGRP (AD=90, metric=28160). [120/3] = RIP (AD=120, metric=3 hops). AD selects between protocols; metric selects best path within a protocol."
+},
+{
+  topic:'VLANs', tc:'t-vlan', day:'D9-12',
+  q:"What happens to an access port's VLAN when the VLAN is deleted from the switch's VLAN database?",
+  opts:["The port automatically moves to VLAN 1","The port goes into an inactive state — it no longer passes traffic because its assigned VLAN doesn't exist. The port VLAN assignment remains in config but is non-functional","The port becomes a trunk port automatically","Nothing — the port keeps working with the deleted VLAN"],
+  ans:1,
+  expl:"When a VLAN is deleted from the VLAN database, any ports assigned to that VLAN become inactive (you see them in 'show vlan' with 'inactive' status). The port configuration isn't changed — it still shows 'access vlan X' in running-config — but traffic doesn't pass. Fix: re-create the VLAN ('vlan X') or reassign the port to an existing VLAN."
+},
+{
+  topic:'OSPF', tc:'t-ospf', day:'D25-28',
+  q:"R1 and R2 are connected. OSPF Hello packets are sent but no adjacency forms. 'debug ip ospf hello' shows Hellos being sent and received. What should you check next?",
+  opts:["Check the routing table — if routes are present, adjacency is formed","Check Hello and Dead timers — they must match exactly on both sides. Also check area number, subnet mask, and if authentication is configured on one side but not the other","Check that both routers have the same hostname","Check that CDP is enabled on the link"],
+  ans:1,
+  expl:"If Hellos are received but adjacency doesn't form, check: (1) Hello/Dead timer mismatch (must be identical — default 10s/40s on broadcast, 30s/120s on serial), (2) Area number mismatch, (3) Subnet mask mismatch (R1 /24, R2 /25 on same link), (4) Authentication mismatch (one side has auth, other doesn't), (5) MTU mismatch (causes EXSTART stuck). Use 'show ip ospf interface' to see Hello/Dead timers per interface."
+},
+{
+  topic:'IPv6', tc:'t-ipv6', day:'D29-32',
+  q:"A host with IPv6 address 2001:DB8::1/64 cannot ping 2001:DB8:1::1/64 (different /64). The default gateway sends a Router Advertisement but the host can't reach the other subnet. What is required?",
+  opts:["Enable IPv6 on the host — it's disabled by default","The router must have 'ipv6 unicast-routing' enabled. Without this, the router won't forward IPv6 packets between subnets — it processes IPv6 only for its own interfaces","The host needs a static IPv6 route","Both subnets must use the same /64 prefix"],
+  ans:1,
+  expl:"'ipv6 unicast-routing' is mandatory for a Cisco router to route IPv6 packets between interfaces. Without it: the router accepts IPv6 packets for its own addresses but drops any packet destined for another network. This is a very common exam scenario — everything looks configured but routing doesn't work because 'ipv6 unicast-routing' was forgotten. Same concept as 'ip routing' on L3 switches."
+},
+{
+  topic:'STP', tc:'t-stp', day:'D13-16',
+  q:"RSTP has port roles: Root, Designated, Alternate, and Backup. What is the difference between Alternate and Backup ports?",
+  opts:["Alternate = Layer 2 backup; Backup = Layer 3 backup","Alternate = backup path to reach the Root Bridge (different switch receives better BPDUs). Backup = redundant path on the SAME switch to the same shared segment (e.g., two ports connected to a hub). Both are in Discarding state.","Alternate = blocked by STP; Backup = actively forwarding","Backup ports are only in RSTP, Alternate ports are in classic STP"],
+  ans:1,
+  expl:"RSTP port roles: Root Port = best path to Root Bridge (one per non-Root switch). Designated Port = best port on each segment. Alternate Port = backup to Root Port — receives better BPDUs from a DIFFERENT switch. Backup Port = redundant connection to same segment as another port on the SAME switch (rare — usually seen when two ports connect to a hub). Both Alternate and Backup are Discarding."
+},
+{
+  topic:'RIP/EIGRP', tc:'t-rip', day:'D21-24',
+  q:"What is EIGRP's DUAL algorithm advantage over RIP's Bellman-Ford when a link fails?",
+  opts:["EIGRP is faster because it uses a smaller routing table","If a Feasible Successor exists (pre-computed loop-free backup path), EIGRP switches to it INSTANTLY without any recalculation. RIP must wait for routing updates, run through count-to-infinity prevention, and reconverge — potentially taking minutes","EIGRP sends fewer routing updates than RIP","EIGRP doesn't use hop count — it uses bandwidth only"],
+  ans:1,
+  expl:"EIGRP with Feasible Successor: link fails → EIGRP immediately promotes Feasible Successor to Successor → convergence in milliseconds. Without Feasible Successor: EIGRP sends Query packets to all neighbors → waits for replies → runs DUAL → reconverges (seconds). RIP: waits for update timer (30s), uses split horizon/poison reverse, counts to infinity (max 15) → can take minutes. EIGRP's pre-computed backup paths are its key convergence advantage."
+},
+{
+  topic:'FHRP', tc:'t-fhrp', day:'D33-36',
+  sc:`R1: HSRP Active (priority 110, preempt)
+R2: HSRP Standby (priority 100, preempt)
+VIP: 192.168.1.254
+
+show standby Gi0/1 on R2:
+State: Active
+Active router: local
+Standby router: unknown`,
+  q:"R2 shows itself as Active even though R1 has higher priority. R1 shows the same — both think they're Active. What is this problem called and what causes it?",
+  opts:["This is normal load balancing — both can be Active","HSRP split-brain: both routers think they're Active. Caused by a network partition where R1 and R2 can't exchange HSRP Hello packets (link failure between them, ACL blocking UDP 1985/3222, or interface issue). Both claim VIP, causing duplicate virtual MAC on the network.","Both routers have preempt — this always causes both to be Active","R2's priority should be 0 to prevent this"],
+  ans:1,
+  expl:"HSRP split-brain occurs when R1 and R2 can no longer exchange Hello packets. Each waits for holdtime → declares the other dead → both claim Active. Two routers respond to ARP for the VIP → two different MACs in replies → random connectivity issues. Causes: physical link failure between routers, ACL blocking HSRP multicast (224.0.0.102 for v2, UDP port 3222), or interface in half-up state."
+},
+{
+  topic:'Services', tc:'t-svc', day:'D37-40',
+  q:"What is the difference between SNMPv2c and SNMPv3 from a security perspective?",
+  opts:["SNMPv2c uses MD5; SNMPv3 uses SHA — both are equally secure","SNMPv2c uses community strings (cleartext password) with NO encryption. SNMPv3 adds: authentication (MD5 or SHA per user), and optionally encryption (DES or AES). SNMPv3 authPriv = auth + encryption = only truly secure SNMP version","SNMPv3 is slower due to encryption — SNMPv2c is preferred in production","SNMPv2c is IEEE standard; SNMPv3 is Cisco proprietary"],
+  ans:1,
+  expl:"SNMPv1/v2c community strings: 'public' (read-only), 'private' (read-write) — sent in cleartext. A packet capture reveals the community string → attacker can read (and with RW, modify) your entire network config. SNMPv3 security levels: noAuthNoPriv (no auth, no encrypt — still weak), authNoPriv (auth only), authPriv (auth + AES encrypt — recommended). Always use SNMPv3 authPriv in production."
+},
+{
+  topic:'Security', tc:'t-sec', day:'D41-42',
+  q:"'show ip access-lists' shows 0 matches on all lines of a newly created ACL. What is the first thing to verify?",
+  opts:["The ACL syntax is incorrect — recreate it","The ACL must be applied to an interface using 'ip access-group' or to VTY lines using 'access-class'. An ACL with 0 matches is either not applied, applied in the wrong direction, or no traffic matching those criteria is present.","Enable 'ip access-list logging' to see matches","Add 'permit ip any any' as the last line"],
+  ans:1,
+  expl:"ACLs don't do anything unless applied. Verify: (1) 'show ip interface Gi0/0' shows which ACL is applied inbound/outbound, (2) Direction matters: 'in' = traffic entering the interface, 'out' = traffic leaving. Wrong direction = no matches. (3) Generate test traffic and check match count. (4) 'show run | section access-list' to verify ACL exists and 'show run | section interface' to verify it's applied."
+},
+{
+  topic:'Routing', tc:'t-route', day:'D17-20',
+  sc:`R1# show ip route
+Codes: C - connected, S - static, O - OSPF
+
+C  10.0.1.0/24 is directly connected, Gi0/0
+O  10.0.2.0/24 [110/2] via 10.0.1.2
+O  10.0.3.0/24 [110/3] via 10.0.1.2
+O  10.0.3.0/24 [110/3] via 10.0.1.3   ← second entry`,
+  q:"There are TWO equal-cost OSPF routes to 10.0.3.0/24. What does R1 do with them?",
+  opts:["Uses the first route — the second is ignored","Equal-cost load balancing — R1 distributes traffic across both paths (per-packet or per-destination depending on CEF settings). OSPF supports up to 4 equal-cost paths by default (configurable with 'maximum-paths')","Keeps the second route as a floating static backup","Compares MAC addresses to choose one"],
+  ans:1,
+  expl:"When two routes have the same AD and same metric, the router installs BOTH in the routing table and load-balances. OSPF default max-paths = 4 (some platforms 16). CEF (Cisco Express Forwarding) uses: per-destination load balancing (same source-destination pair always uses same path — better for TCP), or per-packet (strict round-robin — can cause out-of-order packets). 'ip load-sharing per-packet' changes behavior."
+},
+{
+  topic:'VLANs', tc:'t-vlan', day:'D9-12',
+  q:"What does 'switchport trunk encapsulation dot1q' do and when is it required?",
+  opts:["It sets the maximum transmission unit for trunk links","On older Cisco switches that support BOTH ISL (Cisco proprietary) and 802.1Q trunking, you must specify which encapsulation to use. Newer switches support only 802.1Q, so the command may not exist. Without specifying dot1q, the switch defaults to ISL (or auto-negotiates) which may not work with non-Cisco equipment.","It activates VTP on trunk links","It enables trunk negotiation via DTP"],
+  ans:1,
+  expl:"ISL (Inter-Switch Link) = old Cisco proprietary trunking. 802.1Q (dot1q) = IEEE standard, supported by all vendors. On switches that support both (like older Catalyst 3550): 'switchport trunk encapsulation dot1q' or 'isl' must be configured before 'switchport mode trunk'. On newer switches (Catalyst 2960, 3750, 3850) that support only 802.1Q: the encapsulation command doesn't exist — just 'switchport mode trunk'."
+}
+]; /* END BANK */
+
+/* ═══════════════ EXAM ENGINE ═══════════════ */
+let activeFilter = 'all';
+let activeQ = [];
+let qIdx = 0, score = 0, timeLeft = 0, timerInt = null;
+let answers = [], done = [];
+
+/* ── Compute filtered set ── */
+function getFiltered(){
+  if(activeFilter === 'all') return [...BANK];
+  return BANK.filter(q => q.topic === activeFilter);
+}
+
+/* ── Update start screen meta ── */
+function updateStartMeta(){
+  const qs = getFiltered();
+  const mins = Math.max(15, Math.ceil(qs.length * 1.25));
+  document.getElementById('filter-note').textContent =
+    `Currently: ${qs.length} questions · ${mins} minutes`;
+  const m = document.getElementById('start-meta');
+  const topicCounts = {};
+  qs.forEach(q => { topicCounts[q.topic] = (topicCounts[q.topic]||0)+1; });
+  m.innerHTML = `
+    <div class="meta-box"><div class="meta-val" style="color:var(--accent)">${qs.length}</div><div class="meta-lbl">Questions</div></div>
+    <div class="meta-box"><div class="meta-val" style="color:var(--amber)">${mins}:00</div><div class="meta-lbl">Timer</div></div>
+    <div class="meta-box"><div class="meta-val" style="color:var(--green)">82%</div><div class="meta-lbl">Pass Score</div></div>
+    <div class="meta-box"><div class="meta-val" style="color:var(--purple)">${Object.keys(topicCounts).length}</div><div class="meta-lbl">Topics</div></div>`;
+}
+
+function setFilter(f, btn){
+  activeFilter = f;
+  document.querySelectorAll('.ftag').forEach(b => {
+    b.className = b.dataset.filter === 'all' ? 'ftag' : 'ftag';
+  });
+  btn.className = f === 'all' ? 'ftag on-all' : 'ftag on';
+  // also clear on-all from "All" if other is selected
+  if(f !== 'all') document.querySelector('[data-filter="all"]').className = 'ftag';
+  updateStartMeta();
+}
+
+/* ── Start exam ── */
+function startExam(){
+  activeQ = getFiltered();
+  if(activeQ.length === 0){ alert('No questions for this filter.'); return; }
+  qIdx = 0; score = 0;
+  answers = new Array(activeQ.length).fill(null);
+  done = new Array(activeQ.length).fill(false);
+  timeLeft = Math.max(15, Math.ceil(activeQ.length * 1.25)) * 60;
+
+  document.getElementById('screen-start').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-exam').style.display = 'block';
+  document.getElementById('q-of').textContent = '/ ' + activeQ.length;
+
+  clearInterval(timerInt);
+  timerInt = setInterval(tick, 1000);
+  renderQ();
+}
+
+/* ── Timer ── */
+function tick(){
+  timeLeft--;
+  const m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+  const s = String(timeLeft%60).padStart(2,'0');
+  const t = document.getElementById('timer');
+  t.textContent = m+':'+s;
+  if(timeLeft <= 120) t.className = 'timer crit';
+  else if(timeLeft <= 300) t.className = 'timer warn';
+  if(timeLeft <= 0){ clearInterval(timerInt); showResults(); }
+}
+
+/* ── Render current question ── */
+function renderQ(){
+  const q = activeQ[qIdx];
+  const total = activeQ.length;
+  document.getElementById('q-counter').textContent = 'Q'+(qIdx+1);
+  document.getElementById('prog-fill').style.width = (((qIdx)/total)*100)+'%';
+
+  const sc = q.sc ? `<div class="q-scenario">${esc(q.sc)}</div>` : '';
+  const letters = ['A','B','C','D'];
+  const optHtml = q.opts.map((o,i) =>
+    `<div class="opt" onclick="pick(${i})" id="opt-${i}">
+      <span class="opt-l">${letters[i]}</span>
+      <span>${o}</span>
+    </div>`).join('');
+
+  document.getElementById('q-area').innerHTML = `
+    <div class="q-card" id="q-card">
+      <div class="q-top">
+        <div>
+          <span class="q-num-badge">Question ${qIdx+1} of ${total}</span>
+          <span class="day-badge">${q.day}</span>
+        </div>
+        <span class="topic-badge ${q.tc}">${q.topic}</span>
+      </div>
+      ${sc}
+      <div class="q-text">${q.q}</div>
+      <div class="opts">${optHtml}</div>
+      <div class="expl" id="expl"></div>
+    </div>`;
+
+  if(done[qIdx]) lockOpts(answers[qIdx]);
+
+  const btnNext = document.getElementById('btn-next');
+  const btnSkip = document.getElementById('btn-skip');
+  btnNext.className = done[qIdx] ? 'btn btn-next' : 'btn btn-next btn-dis';
+  btnSkip.style.display = done[qIdx] ? 'none' : 'inline-block';
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function pick(i){
+  if(done[qIdx]) return;
+  done[qIdx] = true; answers[qIdx] = i;
+  if(i === activeQ[qIdx].ans) score++;
+  lockOpts(i);
+  document.getElementById('btn-next').className = 'btn btn-next';
+  document.getElementById('btn-skip').style.display = 'none';
+  document.getElementById('score-live').querySelector('span').textContent = score;
+}
+
+function lockOpts(chosen){
+  const q = activeQ[qIdx];
+  ['A','B','C','D'].forEach((_,i) => {
+    const el = document.getElementById('opt-'+i);
+    if(!el) return;
+    el.classList.add('locked');
+    el.style.pointerEvents = 'none';
+    if(i === q.ans && i === chosen) el.className = 'opt locked correct';
+    else if(i === q.ans) el.className = 'opt locked reveal';
+    else if(i === chosen) el.className = 'opt locked wrong';
+  });
+  const expl = document.getElementById('expl');
+  if(expl){
+    expl.className = 'expl on ' + (chosen === q.ans ? 'ok' : 'bad');
+    expl.innerHTML = (chosen === q.ans ? '<strong>✓ Correct!</strong> ' : '<strong>✗ Incorrect.</strong> ') + q.expl;
+  }
+  const card = document.getElementById('q-card');
+  if(card) card.classList.add('answered');
+}
+
+function nextQ(){
+  if(!done[qIdx]) return;
+  qIdx++;
+  if(qIdx >= activeQ.length){ clearInterval(timerInt); showResults(); return; }
+  renderQ();
+}
+
+function skip(){
+  if(done[qIdx]) return;
+  done[qIdx] = true; answers[qIdx] = -1;
+  document.getElementById('btn-next').className = 'btn btn-next';
+  document.getElementById('btn-skip').style.display = 'none';
+  const expl = document.getElementById('expl');
+  const q = activeQ[qIdx];
+  if(expl){
+    expl.className = 'expl on bad';
+    expl.innerHTML = `<strong>⟳ Skipped.</strong> Correct answer: <strong>${['A','B','C','D'][q.ans]}</strong> — ${q.expl}`;
+  }
+}
+
+function confirmEnd(){
+  const remaining = done.filter(d=>!d).length;
+  if(remaining > 0 && !confirm(`You have ${remaining} unanswered questions. End exam now?`)) return;
+  clearInterval(timerInt);
+  showResults();
+}
+
+/* ── Results ── */
+function showResults(){
+  document.getElementById('screen-exam').style.display = 'none';
+  document.getElementById('screen-results').style.display = 'block';
+
+  const total = activeQ.length;
+  const pct = Math.round((score/total)*100);
+  const passed = pct >= 82;
+  const col = pct>=82 ? 'var(--green)' : pct>=65 ? 'var(--amber)' : 'var(--red)';
+  const msg = pct>=82 ? '✅ PASSED — Excellent CCNA preparation!' : pct>=65 ? '📚 Close — Review flagged topics below.' : '🔄 Keep studying — Focus on missed topics.';
+
+  // per-topic breakdown
+  const topics = {};
+  activeQ.forEach((q,i) => {
+    if(!topics[q.topic]) topics[q.topic] = {t:0, c:0, tc:q.tc};
+    topics[q.topic].t++;
+    if(answers[i] === q.ans) topics[q.topic].c++;
+  });
+
+  let topicHtml = Object.entries(topics).map(([t,v]) => {
+    const tp = Math.round((v.c/v.t)*100);
+    const tc = tp>=80?'var(--green)':tp>=60?'var(--amber)':'var(--red)';
+    return `<div class="topic-box">
+      <div class="topic-box-lbl">${t}</div>
+      <div class="topic-box-val" style="color:${tc}">${v.c}/${v.t} (${tp}%)</div>
+      <div class="topic-bar"><div class="topic-bar-fill" style="width:${tp}%;background:${tc}"></div></div>
+    </div>`;
+  }).join('');
+
+  const timeUsed = Math.max(15, Math.ceil(total*1.25))*60 - timeLeft;
+  const tm = String(Math.floor(timeUsed/60)).padStart(2,'0');
+  const ts = String(timeUsed%60).padStart(2,'0');
+
+  let revHtml = activeQ.map((q,i) => {
+    const ok = answers[i] === q.ans;
+    const skipped = answers[i] === -1;
+    const cls = ok ? 'ok' : skipped ? 'skip' : 'bad';
+    const icon = ok ? '✓' : skipped ? '⟳' : '✗';
+    const lbl = ['A','B','C','D'];
+    const yourAns = answers[i] === -1 ? 'Skipped' : lbl[answers[i]];
+    const correctAns = lbl[q.ans];
+    return `<div class="rev-item ${cls}">
+      <div class="rev-q">${icon} Q${i+1} [${q.topic} · ${q.day}] — ${q.q.substring(0,90)}${q.q.length>90?'...':''}</div>
+      <div class="rev-a">${ok ? 'Correct ✓' : `Your answer: ${yourAns} | Correct: ${correctAns}`}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('results-inner').innerHTML = `
+    <div style="text-align:center;padding:2rem 1rem 1.5rem;">
+      <div class="result-score" style="color:${col}">${pct}%</div>
+      <div style="color:var(--text2);font-size:13px;margin:.5rem 0;">${score} / ${total} correct &nbsp;·&nbsp; Time: ${tm}:${ts}</div>
+      <div style="font-size:1.05rem;color:${col};margin-bottom:1.5rem;">${msg}</div>
+      <div class="topic-grid">${topicHtml}</div>
+      <div style="margin-top:1.25rem;">
+        <button class="restart-btn" onclick="restartExam()">↺ Restart Same Exam</button>
+        <button class="retry-btn" onclick="goHome()">⌂ Back to Topic Select</button>
+      </div>
+    </div>
+    <div class="rev-section">
+      <div class="rev-lbl">DETAILED REVIEW — ALL QUESTIONS</div>
+      ${revHtml}
+    </div>`;
+}
+
+function restartExam(){
+  document.getElementById('screen-results').style.display = 'none';
+  startExam();
+}
+
+function goHome(){
+  document.getElementById('screen-results').style.display = 'none';
+  document.getElementById('screen-start').style.display = 'block';
+}
+
+/* ── Init ── */
+updateStartMeta();
+</script>
+</body>
+</html>
